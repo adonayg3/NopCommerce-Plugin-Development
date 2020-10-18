@@ -1,0 +1,11 @@
+{
+  "Group": "Widgets",
+  "FriendlyName": "Installable Plugin",
+  "SystemName": "Widgets.InstallablePlugin",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Adonay",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.InstallablePlugin.dll",
+  "Description": "A plugin that can be installed and uninstalled"
+}
