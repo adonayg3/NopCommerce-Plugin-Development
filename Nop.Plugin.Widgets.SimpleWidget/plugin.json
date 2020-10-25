@@ -1,0 +1,11 @@
+{
+  "Group": "Widgets",
+  "FriendlyName": "Simple Widget",
+  "SystemName": "Widgets.SimpleWidget",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Adonay",
+  "DisplayOrder": 3,
+  "FileName": "Nop.Plugin.Widgets.SimpleWidget.dll",
+  "Description": "A plugin that displays text"
+}
