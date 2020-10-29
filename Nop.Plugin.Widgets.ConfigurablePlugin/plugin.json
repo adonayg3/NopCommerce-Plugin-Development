@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Configurable Plugin",
+  "SystemName": "Widgets.ConfigurablePlugin",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Adonay",
+  "DisplayOrder": 4,
+  "FileName": "Nop.Plugin.Widgets.ConfigurablePlugin.dll",
+  "Description": "A configurable plugin that lets you add text"
+}

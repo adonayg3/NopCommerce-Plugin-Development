@@ -1,0 +1,11 @@
+﻿@model Nop.Plugin.Widgets.ConfigurablePlugin.Models.PublicInfoModel
+@{
+    Layout = "";
+}
+
+<div>
+    @{
+        var configurableText = Model.ConfigurableText;
+    }
+    <h1>@Html.Raw(configurableText)</h1>
+</div>
