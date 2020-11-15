@@ -2,6 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Services.Plugins;
+using Nop.Services.Security;
 using Nop.Web.Framework.Menu;
 
 namespace Nop.Plugin.Widgets.AdminMenuPlugin
@@ -10,8 +11,8 @@ namespace Nop.Plugin.Widgets.AdminMenuPlugin
     {
         private readonly IWebHelper _webHelper;
         private readonly IPermissionService _permissionService;
-
-        public AdminMenuPlugin(IWebHelper webHelper)
+        public AdminMenuPlugin(IWebHelper webHelper,
+            IPermissionService permissionService)
         {
             _webHelper = webHelper;
             _permissionService = permissionService;
@@ -40,9 +41,21 @@ namespace Nop.Plugin.Widgets.AdminMenuPlugin
                 {
                     Title = "AdminMenuPlugin",
                     Visible = true,
-                    IconClass = "fa fas fa-align-justify",
+                    IconClass = "fa-dot-circle-o",
                     RouteValues = new RouteValueDictionary() {{"area", null}},
                 };
+                
+                var settingsItem = new SiteMapNode()
+                {
+                    Title = "Configure",
+                    ControllerName = "WidgetsAdminMenuPlugin",
+                    ActionName = "Configure",
+                    Visible = true,
+                    IconClass = "fa-dot-circle-o",
+                    RouteValues = new RouteValueDictionary() { { "area", "admin" } },
+                    SystemName = "AdminMenuPlugin.Configure"
+                };
+                menuItem.ChildNodes.Add(settingsItem);
 
                 var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "CustomPlugins");
 
@@ -50,7 +63,7 @@ namespace Nop.Plugin.Widgets.AdminMenuPlugin
                     pluginNode.ChildNodes.Add(menuItem);
                 else
                 {
-                    var configurablePluginNode = new SiteMapNode()
+                    var customPluginNode = new SiteMapNode()
                     {
                         Visible = true,
                         Title = "CustomPlugins",
@@ -58,8 +71,8 @@ namespace Nop.Plugin.Widgets.AdminMenuPlugin
                         SystemName = "CustomPlugins",
                         IconClass = "fa fas fa-plug"
                     };
-                    rootNode.ChildNodes.Add(configurablePluginNode);
-                    configurablePluginNode.ChildNodes.Add(menuItem);
+                    rootNode.ChildNodes.Add(customPluginNode);
+                    customPluginNode.ChildNodes.Add(menuItem);
                 }
             }
         }
