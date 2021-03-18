@@ -1,18 +1,18 @@
-﻿
+﻿using System.Threading.Tasks;
 using Nop.Services.Plugins;
 
 namespace Nop.Plugin.Widgets.InstallablePlugin
 {
     public class InstallablePlugin : BasePlugin
     {
-        public override void Install()
+        public override async Task InstallAsync()
         {
-            base.Install();
+            await base.InstallAsync();
         }
 
-        public override void Uninstall()
+        public override async Task UninstallAsync()
         {
-            base.Uninstall();
+            await base.UninstallAsync();
         }
     }
 }
