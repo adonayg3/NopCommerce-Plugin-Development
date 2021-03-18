@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Routing;
 using Nop.Core;
@@ -30,9 +31,9 @@ namespace Nop.Plugin.Widgets.ConfigurablePlugin
             _permissionService = permissionService;
         }
         
-        public IList<string> GetWidgetZones()
+        public Task<IList<string>> GetWidgetZonesAsync()
         {
-            return new List<string>{PublicWidgetZones.HomepageBeforeBestSellers};
+            return Task.FromResult<IList<string>>(new List<string>{PublicWidgetZones.HomepageBeforeBestSellers});
         }
         public override string GetConfigurationPageUrl()
         {
@@ -44,33 +45,34 @@ namespace Nop.Plugin.Widgets.ConfigurablePlugin
             return "WidgetsConfigurablePlugin";
         }
         
-        public override void Install()
+        public override async Task InstallAsync()
         {
             var settings = new ConfigurablePluginSettings
             {
                 ConfigurableText = "Edit Text in admin section"
             };
-            _settingService.SaveSetting(settings);
+            await _settingService.SaveSettingAsync(settings);
 
-            _localizationService.AddPluginLocaleResource(new Dictionary<string, string>
+            await _localizationService.AddLocaleResourceAsync(new Dictionary<string, string>
             {
                 ["Plugins.Widgets.ConfigurablePlugin.Text"] = "ConfigurablePlugin",
             });
 
-            base.Install();
+            await base.InstallAsync();
         }
         
-        public override void Uninstall()
+        public override async Task UninstallAsync()
         {
-            _settingService.DeleteSetting<ConfigurablePluginSettings>();
+            await _settingService.DeleteSettingAsync<ConfigurablePluginSettings>();
             
-            _localizationService.DeletePluginLocaleResources("Plugins.Widgets.ConfigurablePlugin");
+            await _localizationService.DeleteLocaleResourcesAsync("Plugins.Widgets.ConfigurablePlugin");
 
-            base.Uninstall();
+            await base.UninstallAsync();
         }
-        public void ManageSiteMap(SiteMapNode rootNode)
+
+        public async Task ManageSiteMapAsync(SiteMapNode rootNode)
         {
-            if (_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
             {
                 var menuItem = new SiteMapNode()
                 {
@@ -86,7 +88,7 @@ namespace Nop.Plugin.Widgets.ConfigurablePlugin
                     ControllerName = "WidgetsConfigurablePlugin",
                     ActionName = "Configure",
                     Visible = true,
-                    IconClass = "fa-dot-circle-o",
+                    IconClass = "far fa-dot-circle",
                     RouteValues = new RouteValueDictionary() { { "area", "admin" } },
                     SystemName = "ConfigurablePlugin.Configure"
                 };

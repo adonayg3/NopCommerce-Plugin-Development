@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Configuration;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Plugin.Widgets.ConfigurablePlugin.Models;
 using Nop.Services.Configuration;
@@ -18,9 +20,9 @@ namespace Nop.Plugin.Widgets.ConfigurablePlugin.Components
             _settingService = settingService;
         }
 
-        public IViewComponentResult Invoke(string widgetZone, object additionalData)
+        public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
         {
-            var configurablePluginSettings = _settingService.LoadSetting<ConfigurablePluginSettings>(_storeContext.CurrentStore.Id);
+            var configurablePluginSettings = await _settingService.LoadSettingAsync<ConfigurablePluginSettings>((await _storeContext.GetCurrentStoreAsync()).Id);;
 
             var model = new PublicInfoModel
             {

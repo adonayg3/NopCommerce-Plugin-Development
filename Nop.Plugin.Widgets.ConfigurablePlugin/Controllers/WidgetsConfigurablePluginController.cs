@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Plugin.Widgets.ConfigurablePlugin.Models;
 using Nop.Services.Configuration;
@@ -7,9 +8,11 @@ using Nop.Services.Messages;
 using Nop.Services.Security;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Mvc.Filters;
 
 namespace Nop.Plugin.Widgets.ConfigurablePlugin.Controllers
 {
+    [AuthorizeAdmin]
     [Area(AreaNames.Admin)]
     [AutoValidateAntiforgeryToken]
     public class WidgetsConfigurablePluginController : BasePluginController
@@ -33,13 +36,13 @@ namespace Nop.Plugin.Widgets.ConfigurablePlugin.Controllers
             _storeContext = storeContext;
         }
 
-        public IActionResult Configure()
+        public async Task<IActionResult> Configure()
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
             
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var configurablePluginSettings = _settingService.LoadSetting<ConfigurablePluginSettings>(storeScope);
+            var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+            var configurablePluginSettings = await _settingService.LoadSettingAsync<ConfigurablePluginSettings>(storeScope);
             var model = new ConfigurationModel
             {
                 ConfigurableText = configurablePluginSettings.ConfigurableText,
@@ -48,28 +51,28 @@ namespace Nop.Plugin.Widgets.ConfigurablePlugin.Controllers
 
             if (storeScope > 0)
             {
-                model.ConfigurableTextOverrideForStore = _settingService.SettingExists(configurablePluginSettings, x => x.ConfigurableText, storeScope);
+                model.ConfigurableTextOverrideForStore = await _settingService.SettingExistsAsync(configurablePluginSettings, x => x.ConfigurableText, storeScope);
             }
 
             return View("~/Plugins/Widgets.ConfigurablePlugin/Views/Configure.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult Configure(ConfigurationModel model)
+        public async Task<IActionResult> Configure(ConfigurationModel model)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
             
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var configurablePluginSettings = _settingService.LoadSetting<ConfigurablePluginSettings>(storeScope);
+            var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+            var configurablePluginSettings = await _settingService.LoadSettingAsync<ConfigurablePluginSettings>(storeScope);
             
             configurablePluginSettings.ConfigurableText = model.ConfigurableText;
             
-            _settingService.SaveSettingOverridablePerStore(configurablePluginSettings, x => x.ConfigurableText, model.ConfigurableTextOverrideForStore, storeScope);
+            await _settingService.SaveSettingOverridablePerStoreAsync(configurablePluginSettings, x => x.ConfigurableText, model.ConfigurableTextOverrideForStore, storeScope);
             
-            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
             
-            return Configure();
+            return await Configure();
         }
     }
 }
