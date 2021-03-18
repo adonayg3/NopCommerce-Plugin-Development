@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Services.Plugins;
@@ -18,14 +19,14 @@ namespace Nop.Plugin.Widgets.AdminMenuPlugin
             _permissionService = permissionService;
         }
 
-        public override void Install()
+        public override async Task InstallAsync()
         {
-            base.Install();
+            await base.InstallAsync();
         }
 
-        public override void Uninstall()
+        public override async Task UninstallAsync()
         {
-            base.Uninstall();
+            await base.UninstallAsync();
         }
 
         public override string GetConfigurationPageUrl()
@@ -33,15 +34,15 @@ namespace Nop.Plugin.Widgets.AdminMenuPlugin
             return _webHelper.GetStoreLocation() + "Admin/WidgetsAdminMenuPlugin/Configure";
         }
         
-        public void ManageSiteMap(SiteMapNode rootNode)
+        public async Task ManageSiteMapAsync(SiteMapNode rootNode)
         {
-            if (_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
             {
                 var menuItem = new SiteMapNode()
                 {
                     Title = "AdminMenuPlugin",
                     Visible = true,
-                    IconClass = "fa-dot-circle-o",
+                    IconClass = "far fa-dot-circle",
                     RouteValues = new RouteValueDictionary() {{"area", null}},
                 };
                 
@@ -51,7 +52,7 @@ namespace Nop.Plugin.Widgets.AdminMenuPlugin
                     ControllerName = "WidgetsAdminMenuPlugin",
                     ActionName = "Configure",
                     Visible = true,
-                    IconClass = "fa-dot-circle-o",
+                    IconClass = "far fa-dot-circle",
                     RouteValues = new RouteValueDictionary() { { "area", "admin" } },
                     SystemName = "AdminMenuPlugin.Configure"
                 };

@@ -3,7 +3,7 @@
   "FriendlyName": "Admin Menu Plugin",
   "SystemName": "Widgets.AdminMenuPlugin",
   "Version": "1.0",
-  "SupportedVersions": [ "4.30" ],
+  "SupportedVersions": [ "4.40" ],
   "Author": "Adonay",
   "DisplayOrder": 2,
   "FileName": "Nop.Plugin.Widgets.AdminMenuPlugin.dll",
