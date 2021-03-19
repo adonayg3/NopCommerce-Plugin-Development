@@ -3,7 +3,7 @@
   "FriendlyName": "Installable Plugin",
   "SystemName": "Widgets.InstallablePlugin",
   "Version": "1.0",
-  "SupportedVersions": [ "4.30" ],
+  "SupportedVersions": [ "4.40" ],
   "Author": "Adonay",
   "DisplayOrder": 2,
   "FileName": "Nop.Plugin.Widgets.InstallablePlugin.dll",

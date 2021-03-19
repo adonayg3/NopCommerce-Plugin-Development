@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Nop.Services.Cms;
 using Nop.Services.Plugins;
 using Nop.Web.Framework.Infrastructure;
@@ -7,20 +8,20 @@ namespace Nop.Plugin.Widgets.SimpleWidget
 {
     public class SimpleWidget : BasePlugin, IWidgetPlugin
     {
-        public override void Install()
+        public override async Task InstallAsync()
         {
-            base.Install();
+            await base.InstallAsync();
         }
 
-        public override void Uninstall()
+        public override async Task UninstallAsync()
         {
-            base.Uninstall();
+            await base.UninstallAsync();
         }
 
         public bool HideInWidgetList => false;
-        public IList<string> GetWidgetZones()
+        public Task<IList<string>> GetWidgetZonesAsync()
         {
-            return new List<string>{PublicWidgetZones.HomepageBeforeBestSellers};
+            return Task.FromResult<IList<string>>(new List<string>{PublicWidgetZones.HomepageBeforeBestSellers});
         }
 
         public string GetWidgetViewComponentName(string widgetZone)

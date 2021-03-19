@@ -6,10 +6,10 @@
 
 @await Component.InvokeAsync("StoreScopeConfiguration")
 <form asp-controller="WidgetsConfigurablePlugin" asp-action="Configure" method="post">
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="form-group">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
                     <div class="col-md-3">
                         <nop-override-store-checkbox asp-for="ConfigurableTextOverrideForStore" asp-input="ConfigurableText" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="ConfigurableText" />
@@ -19,13 +19,12 @@
                         <span asp-validation-for="ConfigurableText"></span>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="form-group">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        &nbsp;
+                    </div>
                     <div class="col-md-9 col-md-offset-3">
-                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")"/>
                     </div>
                 </div>
             </div>

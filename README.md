@@ -9,8 +9,8 @@ Collection of plugins to provide an introduction in to Plugin Development in Nop
 ## Prerequisites
 Before you continue, ensure you have the following installed:
 * IDE: Visual Studio, Visual Studio Code or Rider
-* SDK: dotnet Core 3.1
-* NopCommerce 4.3
+* SDK: dotnet 5.0
+* NopCommerce 4.4
 	
 ## Setup
 1. Open NopCommerce on desired IDE.

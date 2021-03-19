@@ -2,7 +2,7 @@
 
 namespace Nop.Plugin.Widgets.ConfigurablePlugin.Models
 {
-    public class PublicInfoModel : BaseNopModel
+    public record PublicInfoModel : BaseNopModel
     {
         public string ConfigurableText { get; set; }
     }
